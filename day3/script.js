@@ -1,162 +1,262 @@
+// ========================================
+// DAY 3 - NOTES TOOLKIT
+// ========================================
 
+
+// Starting notes data
 let notes = [
-  { id: 1, text: "Buy milk and bread", category: "personal" },
-  { id: 2, text: "Finish the Day 3 assignment", category: "study" },
-  { id: 3, text: "Email the project report to Grace", category: "work" },
-  { id: 4, text: "Revise JavaScript arrays", category: "study" },
-  { id: 5, text: "Call mum", category: "personal" },
+    {
+        id: 1,
+        text: "Buy milk and bread",
+        category: "personal"
+    },
+    {
+        id: 2,
+        text: "Finish the Day 3 assignment",
+        category: "study"
+    },
+    {
+        id: 3,
+        text: "Email the project report to Grace",
+        category: "work"
+    },
+    {
+        id: 4,
+        text: "Revise JavaScript arrays",
+        category: "study"
+    },
+    {
+        id: 5,
+        text: "Call mum",
+        category: "personal"
+    }
 ];
 
-// 1. searchNotes(word)
-function searchNotes(word) {
-  const searchWord = word.toLowerCase();
 
-  return notes.filter(function (note) {
-    return note.text.toLowerCase().includes(searchWord);
-  });
+// ========================================
+// 1. SEARCH NOTES
+// ========================================
+
+function searchNotes(word) {
+    return notes.filter((note) =>
+        note.text.toLowerCase().includes(word.toLowerCase())
+    );
 }
 
-console.log(searchNotes("javascript"));
+
+// Tests
+console.log("searchNotes - normal:");
+console.log(searchNotes("JavaScript"));
 // Expected: [{ id: 4, text: "Revise JavaScript arrays", category: "study" }]
 
-console.log(searchNotes("python"));
+console.log("searchNotes - no results:");
+console.log(searchNotes("pizza"));
 // Expected: []
 
 
-// 2. longestNote()
+// ========================================
+// 2. LONGEST NOTE
+// ========================================
+
 function longestNote() {
-  if (notes.length === 0) {
-    return null;
-  }
 
-  let longest = notes[0];
-
-  for (let i = 1; i < notes.length; i++) {
-    if (notes[i].text.length > longest.text.length) {
-      longest = notes[i];
+    // If there are no notes, return null
+    if (notes.length === 0) {
+        return null;
     }
-  }
 
-  return longest;
+    // Start by assuming the first note is the longest
+    let longest = notes[0];
+
+    // Compare every note with the current longest note
+    for (let note of notes) {
+        if (note.text.length > longest.text.length) {
+            longest = note;
+        }
+    }
+
+    return longest;
 }
 
+
+// Tests
+console.log("longestNote - normal:");
 console.log(longestNote());
 // Expected: { id: 3, text: "Email the project report to Grace", category: "work" }
 
-const originalNotes = notes;
+console.log("longestNote - empty array:");
+let savedNotes = notes;
 notes = [];
-
 console.log(longestNote());
 // Expected: null
-
-notes = originalNotes;
-
-
-// 3. countByCategory()
-function countByCategory() {
-  const counts = {};
-
-  for (const note of notes) {
-    if (counts[note.category]) {
-      counts[note.category]++;
-    } else {
-      counts[note.category] = 1;
-    }
-  }
-
-  return counts;
-}
-
-console.log(countByCategory());
-// Expected: { personal: 2, study: 2, work: 1 }
-
-const savedNotes = notes;
-notes = [];
-
-console.log(countByCategory());
-// Expected: {}
-
 notes = savedNotes;
 
 
-// 4. getSummary()
-function getSummary() {
-  const counts = countByCategory();
-  const noteWord = notes.length === 1 ? "note" : "notes";
+// ========================================
+// 3. COUNT BY CATEGORY
+// ========================================
 
-  return `${notes.length} ${noteWord}: ${counts.personal || 0} personal, ${counts.work || 0} work, ${counts.study || 0} study.`;
+function countByCategory() {
+
+    // Object that will store our counts
+    const counts = {};
+
+    // Loop through every note
+    for (let note of notes) {
+
+        // If the category does not exist yet, start at 0
+        if (!counts[note.category]) {
+            counts[note.category] = 0;
+        }
+
+        // Increase the category count
+        counts[note.category]++;
+    }
+
+    return counts;
 }
 
-console.log(getSummary());
-// Expected: 5 notes: 2 personal, 1 work, 2 study.
 
-const summaryNotes = notes;
+// Tests
+console.log("countByCategory - normal:");
+console.log(countByCategory());
+// Expected: { personal: 2, study: 2, work: 1 }
+
+console.log("countByCategory - empty array:");
+savedNotes = notes;
 notes = [];
-
-console.log(getSummary());
-// Expected: 0 notes: 0 personal, 0 work, 0 study.
-
-notes = summaryNotes;
+console.log(countByCategory());
+// Expected: {}
+notes = savedNotes;
 
 
-// 5. isDuplicate(text)
-function isDuplicate(text) {
-  const cleanedText = text.trim().toLowerCase();
+// ========================================
+// 4. GET SUMMARY
+// ========================================
 
-  return notes.some(function (note) {
-    return note.text.trim().toLowerCase() === cleanedText;
-  });
+function getSummary() {
+
+    const counts = countByCategory();
+
+    const word = notes.length === 1 ? "note" : "notes";
+
+    return `${notes.length} ${word}: ${counts.personal || 0} personal, ${counts.work || 0} work, ${counts.study || 0} study.`;
 }
 
+
+// Tests
+console.log("getSummary - normal:");
+console.log(getSummary());
+// Expected: "5 notes: 2 personal, 1 work, 2 study."
+
+console.log("getSummary - one note:");
+savedNotes = notes;
+notes = [
+    {
+        id: 1,
+        text: "Test note",
+        category: "personal"
+    }
+];
+console.log(getSummary());
+// Expected: "1 note: 1 personal, 0 work, 0 study."
+notes = savedNotes;
+
+
+// ========================================
+// 5. IS DUPLICATE
+// ========================================
+
+function isDuplicate(text) {
+
+    const newText = text.trim().toLowerCase();
+
+    return notes.some((note) =>
+        note.text.trim().toLowerCase() === newText
+    );
+}
+
+
+// Tests
+console.log("isDuplicate - existing note:");
 console.log(isDuplicate("Call mum"));
 // Expected: true
 
-console.log(isDuplicate("  CALL MUM  "));
+console.log("isDuplicate - new note:");
+console.log(isDuplicate("Go to the gym"));
+// Expected: false
+
+console.log("isDuplicate - extra spaces and different case:");
+console.log(isDuplicate("   CALL MUM   "));
 // Expected: true
 
 
-// 6. addNote(text, category)
+// ========================================
+// 6. ADD NOTE
+// ========================================
+
 function addNote(text, category) {
-  const cleanedText = text.trim();
 
-  if (cleanedText.length < 1 || cleanedText.length > 200) {
-    console.log("Cannot add note: text must be between 1 and 200 characters.");
-    return false;
-  }
+    // Remove unnecessary spaces
+    text = text.trim();
 
-  if (isDuplicate(cleanedText)) {
-    console.log("Cannot add note: duplicate text.");
-    return false;
-  }
+    // Check if the text length is valid
+    if (text.length < 1 || text.length > 200) {
+        console.log("Cannot add note: text must be between 1 and 200 characters.");
+        return false;
+    }
 
-  const validCategories = ["personal", "work", "study"];
+    // Check if the note already exists
+    if (isDuplicate(text)) {
+        console.log("Cannot add note: this note already exists.");
+        return false;
+    }
 
-  if (!validCategories.includes(category)) {
-    console.log(
-      "Cannot add note: category must be personal, work, or study."
-    );
-    return false;
-  }
+    // Check if the category is valid
+    const validCategories = ["personal", "work", "study"];
 
-  const newNote = {
-    id: notes.length > 0
-      ? Math.max(...notes.map(function (note) {
-          return note.id;
-        })) + 1
-      : 1,
-    text: cleanedText,
-    category: category,
-  };
+    if (!validCategories.includes(category)) {
+        console.log("Cannot add note: category must be personal, work, or study.");
+        return false;
+    }
 
-  notes.push(newNote);
+    // Create the new note
+    const newNote = {
+        id: notes.length + 1,
+        text: text,
+        category: category
+    };
 
-  console.log("Note added successfully.");
-  return true;
+    // Add the new note to the notes array
+    notes.push(newNote);
+
+    console.log("Note added successfully.");
+
+    return true;
 }
 
-console.log(addNote("Prepare for the JavaScript test", "study"));
+
+// Tests
+console.log("addNote - valid note:");
+console.log(addNote("Buy a new laptop", "personal"));
 // Expected: true
 
+console.log("addNote - duplicate note:");
 console.log(addNote("Call mum", "personal"));
 // Expected: false
 
+console.log("addNote - invalid category:");
+console.log(addNote("Learn Python", "school"));
+// Expected: false
+
+console.log("addNote - empty text:");
+console.log(addNote("", "study"));
+// Expected: false
+
+
+// ========================================
+// FINAL NOTES
+// ========================================
+
+console.log("Final notes:");
+console.log(notes);
