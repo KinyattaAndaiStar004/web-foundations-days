@@ -1,0 +1,152 @@
+```css
+/* Reset box sizing */
+* {
+    box-sizing: border-box;
+}
+
+
+/* Body */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+
+/* Header */
+header {
+    background-color: #4b0082;
+    color: white;
+    text-align: center;
+    padding: 30px 20px;
+}
+
+header h1 {
+    margin: 0 0 10px;
+}
+
+header p {
+    margin: 0;
+}
+
+
+/* Main area */
+main {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+
+/* Sections */
+section {
+    background-color: white;
+    padding: 25px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+
+/* Form */
+#note-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+/* Input and select */
+input,
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+
+/* Button */
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4b0082;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+
+/* Button hover */
+button:hover {
+    background-color: #6a0dad;
+}
+
+
+/* Error message */
+#error-message {
+    color: red;
+    font-weight: bold;
+}
+
+
+/* Notes list */
+#notes-list {
+    list-style: none;
+    padding: 0;
+}
+
+
+/* Note cards */
+.note-card {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+
+/* Personal category */
+.category-personal {
+    border-left: 5px solid teal;
+}
+
+
+/* Work category */
+.category-work {
+    border-left: 5px solid darkred;
+}
+
+
+/* Study category */
+.category-study {
+    border-left: 5px solid blue;
+}
+
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #222;
+    color: white;
+}
+
+
+/* Small screens */
+@media (max-width: 600px) {
+
+    #note-form {
+        flex-direction: column;
+    }
+
+    main {
+        padding: 0 10px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+```
