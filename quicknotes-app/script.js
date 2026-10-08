@@ -6,6 +6,7 @@ const notesList = document.querySelector("#notes-list");
 const noteCount = document.querySelector("#note-count");
 const errorMessage = document.querySelector("#error-message");
 const searchInput = document.querySelector("#search-input");
+const clearAllButton = document.querySelector("#clear-all");
 
 // Get saved notes from localStorage
 let notes = JSON.parse(localStorage.getItem("quickNotes")) || [];
@@ -184,6 +185,16 @@ searchInput.addEventListener("input", function () {
 });
 
 
+// Clear all notes
+clearAllButton.addEventListener("click", function () {
+
+    if (confirm("Delete all notes?")) {
+        notes = [];
+        saveNotes();
+        render();
+    }
+});
+
+
 // Display saved notes when the page loads
 render();
-
