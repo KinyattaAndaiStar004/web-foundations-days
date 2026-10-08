@@ -6,8 +6,15 @@ const notesList = document.querySelector("#notes-list");
 const noteCount = document.querySelector("#note-count");
 const errorMessage = document.querySelector("#error-message");
 
-// Store all notes in an array
-let notes = [];
+// Get saved notes from localStorage
+let notes = JSON.parse(localStorage.getItem("quickNotes")) || [];
+
+
+// Function to save notes to localStorage
+function saveNotes() {
+    localStorage.setItem("quickNotes", JSON.stringify(notes));
+}
+
 
 // Function to display notes on the page
 function render() {
@@ -24,48 +31,44 @@ function render() {
         noteCount.textContent = `You have ${notes.length} notes.`;
     }
 
-    // Go through each note
+    // Display each note
     notes.forEach(function (note) {
 
-        // Create the list item
         const li = document.createElement("li");
 
-        // Add the note card class
         li.classList.add("note-card");
 
-        // Add the category class
         li.classList.add(
             "category-" + note.category.toLowerCase()
         );
 
-        // Create the note text
         const noteText = document.createElement("p");
         noteText.textContent = note.text;
 
-        // Create the category label
         const categoryLabel = document.createElement("small");
-        categoryLabel.textContent = note.category;
+        categoryLabel.textContent = `Category: ${note.category}`;
 
-        // Create the date
         const date = document.createElement("small");
-        date.textContent = note.createdAt;
+        date.textContent = `Created: ${note.createdAt}`;
 
-        // Create the Delete button
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
         deleteButton.type = "button";
 
-        // Delete this note when the button is clicked
+        // Delete the selected note
         deleteButton.addEventListener("click", function () {
 
             notes = notes.filter(function (item) {
                 return item.id !== note.id;
             });
 
+            // Save the updated notes
+            saveNotes();
+
+            // Display the updated list
             render();
         });
 
-        // Add everything to the note card
         li.appendChild(noteText);
         li.appendChild(categoryLabel);
         li.appendChild(document.createElement("br"));
@@ -73,7 +76,6 @@ function render() {
         li.appendChild(document.createElement("br"));
         li.appendChild(deleteButton);
 
-        // Add the note card to the list
         notesList.appendChild(li);
     });
 }
@@ -85,30 +87,28 @@ form.addEventListener("submit", function (event) {
     // Stop the page from refreshing
     event.preventDefault();
 
-    // Get the text entered by the user
     const text = noteInput.value.trim();
-
-    // Get the selected category
     const category = noteCategory.value;
 
 
-    // Check if the note is empty
+    // Check for an empty note
     if (text === "") {
         errorMessage.textContent = "Please type a note first.";
         return;
     }
 
-    // Check if the note is longer than 200 characters
+    // Check the 200-character limit
     if (text.length > 200) {
-        errorMessage.textContent = "Notes must be 200 characters or fewer.";
+        errorMessage.textContent =
+            "Notes must be 200 characters or fewer.";
         return;
     }
 
-    // Clear any previous error message
+    // Clear the error message
     errorMessage.textContent = "";
 
 
-    // Create a new note object
+    // Create a new note
     const newNote = {
         id: Date.now(),
         text: text,
@@ -116,8 +116,11 @@ form.addEventListener("submit", function (event) {
         createdAt: new Date().toLocaleString()
     };
 
-    // Add the new note to the array
+    // Add the note to the array
     notes.push(newNote);
+
+    // Save notes to localStorage
+    saveNotes();
 
     // Display the notes
     render();
@@ -125,3 +128,8 @@ form.addEventListener("submit", function (event) {
     // Clear the input
     noteInput.value = "";
 });
+
+
+// Display saved notes when the page loads
+render();
+
