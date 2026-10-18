@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>User Directory | Day 5 API Lab</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="users.js" defer></script>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container nav">
+            <a href="#" class="brand">
+                <span class="brand-icon">UD</span>
+                <span>UserDirectory</span>
+            </a>
+
+            <span class="day-label">WEB FOUNDATIONS · DAY 5</span>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-content">
+                <span class="eyebrow">REST API PRACTICE</span>
+
+                <h1>Discover your <span>people.</span></h1>
+
+                <p>
+                    Explore user profiles, view contact information,
+                    and find the person you are looking for.
+                </p>
+
+                <a href="#directory" class="hero-link">
+                    Explore directory <span aria-hidden="true">↓</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="container directory-section" id="directory">
+
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">USER MANAGEMENT</span>
+                    <h2>Your Directory</h2>
+                    <p class="section-description">
+                        Load user profiles and filter them by name.
+                    </p>
+                </div>
+
+                <div class="directory-badge">
+                    <span class="status-dot"></span>
+                    API Directory
+                </div>
+            </div>
+
+            <div class="toolbar">
+                <div class="search-box">
+                    <label for="filter-input">Search users</label>
+
+                    <div class="search-input-wrap">
+                        <span class="search-icon" aria-hidden="true">⌕</span>
+
+                        <input
+                            type="search"
+                            id="filter-input"
+                            placeholder="Type a user's name..."
+                            autocomplete="off"
+                        >
+                    </div>
+                </div>
+
+                <button id="load-users" type="button">
+                    <span aria-hidden="true">↻</span>
+                    Load Users
+                </button>
+            </div>
+
+            <p id="status" class="status-message" role="status" aria-live="polite">
+                Ready when you are. Click "Load Users" to get started.
+            </p>
+
+            <div class="results-heading">
+                <h3>People <span class="heading-dot">.</span></h3>
+                <span class="results-caption">USER PROFILES</span>
+            </div>
+
+            <ul id="users-list" class="users-grid"></ul>
+
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <p>Built with HTML, CSS &amp; JavaScript.</p>
+            <p>Web Foundations <span>·</span> Day 5</p>
+        </div>
+    </footer>
+
+</body>
+</html>
